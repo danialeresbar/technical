@@ -1,0 +1,34 @@
+# Last update: Add requests package
+
+# Allows you to utilize the 12factor inspired DATABASE_URL environment variable
+dj-database-url==0.5.0
+
+# Python WEB framework
+Django==3.2.12
+
+# Allows in-browser requests to your Django application from other origins
+django-cors-headers==3.10.1
+
+# A configurable set of panels that display various debug information about the current request/response
+django-debug-toolbar==3.2.1
+
+# Set the draft security HTTP header Permissions-Policy (previously Feature-Policy) on your Django app.
+django-permissions-policy==4.7.0
+
+# REST Framework
+djangorestframework==3.13.1
+
+# Automated generation of real Swagger/OpenAPI 2.0 schemas from Django Rest Framework code
+drf-yasg==1.20.0
+
+# Python WSGI HTTP Server
+gunicorn==20.0.4
+
+# Random name generator
+names==0.3.0
+
+# PostgreSQL python client
+psycopg2==2.8.5
+
+# Simple, yet elegant, HTTP library.
+requests==2.27.1

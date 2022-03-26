@@ -1,0 +1,37 @@
+version: '3.4'
+
+x-common: &common
+  build: .
+  env_file:
+    - .env
+  volumes:
+    - ./apps:/src/apps
+    - ./technical:/src/technical
+    - ./htmlcov:/src/htmlcov
+    - ./scripts:/src/scripts
+
+services:
+  web:
+    <<: *common
+    depends_on:
+      - database
+    command: ["./scripts/wait-for-it.sh", "database:5432", "--", "./scripts/dev-entrypoint.sh"]
+    ports:
+      - "8010:8000"
+
+  database:
+    image: postgres:13-alpine
+    container_name: technical-postgres
+    restart: "no"
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-postgres}
+      POSTGRES_DB: ${DATABASE_NAME:-postgres}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    # For development management please use the following port: 50000
+    ports:
+      - "50000:5432"
+
+volumes:
+  pg_data:

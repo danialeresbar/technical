@@ -1,0 +1,7 @@
+# Last update: Remove django-nose package
+
+# Code coverage testing for Python
+coverage==6.2
+
+# Used for get traceback when using parallel tests
+tblib==1.7.0

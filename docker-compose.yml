@@ -1,0 +1,12 @@
+version: '3.4'
+
+# BASE CONFIG: applies to all environments. It does not work alone
+
+services:
+  web:
+    container_name: technical-web
+    volumes:
+      - static:/src/technical/static
+
+volumes:
+  static:

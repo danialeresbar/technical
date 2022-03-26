@@ -1,0 +1,11 @@
+[run]
+source = .
+omit =
+    */migrations/*
+    */htmlcov/*
+    */test.py
+    */tests.py
+    */tests/*
+    technical/asgi.py
+    technical/wsgi.py
+    technical/settings/production.py

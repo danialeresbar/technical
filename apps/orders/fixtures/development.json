@@ -1,0 +1,20 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$150000$Tl01PSykaqjn$3k9kmnKZmA1IvmUpi54U7e9NSsbv+ZG/5KGNORmdQj8=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@alternova.co",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2021-12-10T17:22:29.905Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
