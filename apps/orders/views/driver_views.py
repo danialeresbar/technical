@@ -14,10 +14,6 @@ class DriverViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], name="locate_driver")
     def locate_driver(self, request):
-        """
-
-        """
-
         date = utils.validate_date_as_query_param(request.query_params.get("date"), datetime=True)
         if date is None:
             return Response(
@@ -40,10 +36,8 @@ class DriverViewSet(viewsets.ModelViewSet):
             )
         filtered_drivers = self.get_queryset().filter(updated_at=date)
         driver = utils.find_nearest_driver(drivers=filtered_drivers, desired_location=desired_location)
-        print(utils.has_pending_orders(driver, date))
         if utils.has_pending_orders(driver, date):
             return Response({}, status.HTTP_404_NOT_FOUND)
         else:
             serializer = self.get_serializer(driver, many=False)
             return Response(serializer.data, status.HTTP_200_OK)
-

@@ -14,10 +14,6 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], name="schedule_order")
     def schedule_order(self, request):
-        """
-
-        """
-
         serializer = self.get_serializer(data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
@@ -29,10 +25,6 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], name="orders_by_date")
     def orders_by_date(self, request):
-        """
-
-        """
-
         date = utils.validate_date_as_query_param(request.query_params.get("date"))
         if date is None:
             return Response(
@@ -56,10 +48,6 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], name="orders_by_driver_and_date")
     def orders_by_driver_and_date(self, request):
-        """
-
-        """
-
         date = utils.validate_date_as_query_param(request.query_params.get("date"))
         if date is None:
             return Response(
@@ -88,5 +76,3 @@ class OrderViewSet(viewsets.ModelViewSet):
             return Response(list(orders), status.HTTP_200_OK)
         else:
             return Response([], status.HTTP_404_NOT_FOUND)
-
-

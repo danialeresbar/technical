@@ -4,13 +4,12 @@ from django.utils.dateparse import parse_date, parse_datetime
 from apps.orders.models import Driver
 
 
-def has_pending_orders(driver, date):
-    has_pending_orders = False
+def has_pending_orders(driver, date) -> bool:
     for order in driver.orders.all():
         if order.date > date:
             timedelta = order.date - date
-            has_pending_orders = timedelta.seconds / 3600 <= 1
-    return has_pending_orders
+            return timedelta.seconds / 3600 <= 1
+    return False
 
 
 def remove_id_from_serialized_data(obj):
@@ -18,7 +17,7 @@ def remove_id_from_serialized_data(obj):
     return obj
 
 
-def euclidean_distance(coordinate_1, coordinate_2):
+def euclidean_distance(coordinate_1, coordinate_2) -> float:
     return pow(pow(coordinate_1[0] - coordinate_2[0], 2) + pow(coordinate_1[1] - coordinate_2[1], 2), .5)
 
 
@@ -54,7 +53,7 @@ def validate_driver_as_query_param(driver):
     return validated_driver
 
 
-def validate_location_as_query_param(location):
+def validate_location_as_query_param(location) -> list:
     validated_location = []
     try:
         validated_location = [int(component) for component in location]
