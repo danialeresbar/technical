@@ -4,6 +4,15 @@ from django.utils.dateparse import parse_date, parse_datetime
 from apps.orders.models import Driver
 
 
+def has_pending_orders(driver, date):
+    has_pending_orders = False
+    for order in driver.orders.all():
+        if order.date > date:
+            timedelta = order.date - date
+            has_pending_orders = timedelta.seconds / 3600 <= 1
+    return has_pending_orders
+
+
 def remove_id_from_serialized_data(obj):
     del obj["id"]
     return obj

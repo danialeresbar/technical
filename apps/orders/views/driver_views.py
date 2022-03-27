@@ -40,8 +40,10 @@ class DriverViewSet(viewsets.ModelViewSet):
             )
         filtered_drivers = self.get_queryset().filter(updated_at=date)
         driver = utils.find_nearest_driver(drivers=filtered_drivers, desired_location=desired_location)
-        if driver and not driver.orders.all():
+        print(utils.has_pending_orders(driver, date))
+        if utils.has_pending_orders(driver, date):
+            return Response({}, status.HTTP_404_NOT_FOUND)
+        else:
             serializer = self.get_serializer(driver, many=False)
             return Response(serializer.data, status.HTTP_200_OK)
-        else:
-            return Response({}, status.HTTP_404_NOT_FOUND)
+
