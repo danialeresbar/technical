@@ -60,12 +60,6 @@ Use this template to start the backend development of your projects with Django
 └── test-requirements.txt
 ```
 
-The command before will remove the `.git` folder, so you will have to initialize it again:
-```
-git init
-git remote add origin <repository-url>
-```
-
 ### How to run the project ###
 
 The project use docker, so just run:
