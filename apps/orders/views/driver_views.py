@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from apps.orders.models import Driver
 from apps.orders.serializers import DriverSerializer
+from apps.orders import utils
 
 
 class DriverViewSet(viewsets.ModelViewSet):
@@ -13,7 +14,34 @@ class DriverViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['get'], name="locate_driver")
     def locate_driver(self, request):
-        desired_lat = request.query_params.get("lat")
-        desired_lng = request.query_params.get("lng")
-        drivers = self.get_queryset().filter()
-        return Response([desired_lat, desired_lng], status.HTTP_200_OK)
+        """
+
+        """
+
+        date = utils.validate_date_as_query_param(request.query_params.get("date"), datetime=True)
+        if date is None:
+            return Response(
+                {
+                    "date": ["This query parameter is mandatory and must be in a valid format"]
+                },
+                status.HTTP_400_BAD_REQUEST
+            )
+
+        desired_location = utils.validate_location_as_query_param(
+            location=[request.query_params.get("lat"), request.query_params.get("lng")]
+        )
+        if not desired_location:
+            return Response(
+                {
+                    "lat": ["Ensure this value is less than or equal to 100"],
+                    "lng": ["Ensure this value is less than or equal to 100"]
+                },
+                status.HTTP_400_BAD_REQUEST
+            )
+        filtered_drivers = self.get_queryset().filter(updated_at=date)
+        driver = utils.find_nearest_driver(drivers=filtered_drivers, desired_location=desired_location)
+        if driver and not driver.orders.all():
+            serializer = self.get_serializer(driver, many=False)
+            return Response(serializer.data, status.HTTP_200_OK)
+        else:
+            return Response({}, status.HTTP_404_NOT_FOUND)

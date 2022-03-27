@@ -2,7 +2,7 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from apps.orders.models import Driver, Order
+from apps.orders.models import Order
 from apps.orders.serializers import OrderSerializer
 from apps.orders import utils
 
@@ -14,6 +14,10 @@ class OrderViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], name="schedule_order")
     def schedule_order(self, request):
+        """
+
+        """
+
         serializer = self.get_serializer(data=request.data, many=False)
         if serializer.is_valid():
             serializer.save()
@@ -29,11 +33,24 @@ class OrderViewSet(viewsets.ModelViewSet):
 
         """
 
-        date = request.query_params.get("date")
-        filtered_orders = self.get_queryset().filter(date=date)
+        date = utils.validate_date_as_query_param(request.query_params.get("date"))
+        if date is None:
+            return Response(
+                {
+                    "date": ["This query parameter is mandatory and must be in a valid format"]
+                },
+                status.HTTP_400_BAD_REQUEST
+            )
+
+        filtered_orders = self.get_queryset().filter(
+            date__year=date.year,
+            date__month=date.month,
+            date__day=date.day
+        ).order_by('date')
         if filtered_orders.exists():
             serializer = self.get_serializer(filtered_orders, many=True)
-            return Response(serializer.data, status.HTTP_200_OK)
+            orders = map(utils.remove_id_from_serialized_data, serializer.data)
+            return Response(list(orders), status.HTTP_200_OK)
         else:
             return Response([], status.HTTP_404_NOT_FOUND)
 
@@ -47,7 +64,7 @@ class OrderViewSet(viewsets.ModelViewSet):
         if date is None:
             return Response(
                 {
-                    "date": ["This value is mandatory and must be in a valid format"]
+                    "date": ["This query parameter is mandatory and must be in a valid format"]
                 },
                 status.HTTP_400_BAD_REQUEST
             )
@@ -59,10 +76,16 @@ class OrderViewSet(viewsets.ModelViewSet):
                 },
                 status.HTTP_400_BAD_REQUEST
             )
-        filtered_orders = self.get_queryset().filter(driver=driver, date__gte=date)
+        filtered_orders = self.get_queryset().filter(
+            driver=driver,
+            date__year=date.year,
+            date__month=date.month,
+            date__day=date.day
+        ).order_by('date')
         if filtered_orders.exists():
             serializer = self.get_serializer(filtered_orders, many=True)
-            return Response(serializer.data, status.HTTP_200_OK)
+            orders = map(utils.remove_id_from_serialized_data, serializer.data)
+            return Response(list(orders), status.HTTP_200_OK)
         else:
             return Response([], status.HTTP_404_NOT_FOUND)
 

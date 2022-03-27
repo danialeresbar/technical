@@ -25,5 +25,5 @@ class Order(models.Model):
         verbose_name_plural = "Orders"
 
     def __str__(self):
-        return f"Order ({self.pk}) - {self.driver}"
+        return f"Order - {self.driver} from [{self.pickup_lat},{self.pickup_lng}] to [{self.destination_lat}, {self.destination_lng}]"
 
