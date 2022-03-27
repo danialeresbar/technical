@@ -2,12 +2,6 @@
 
 Python 3.8 + Django 3.2 + Postgres 13
 
-## Description
-
-## Documentation
-
-Use this template to start the backend development of your projects with Django
-
 ### Directory tree
 
 ```
