@@ -22,7 +22,7 @@ class DriverViewSet(viewsets.ModelViewSet):
         if date is None:
             return Response(
                 {
-                    "date": ["This query parameter is mandatory and must be in a valid format"]
+                    "date": ["This query parameter is mandatory and must be in a valid format. It must be in YYYY-MM-DD HH:MM"]
                 },
                 status.HTTP_400_BAD_REQUEST
             )
