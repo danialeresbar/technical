@@ -1,5 +1,3 @@
-import os
-
 from .common import *
 from .partials.utils import get_secret
 
@@ -8,7 +6,7 @@ PUBLIC_KEY = get_secret('PUBLIC_KEY')
 SECRET_KEY = get_secret('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_secret('DEBUG')
+DEBUG = False
 
 ALLOWED_HOSTS = get_secret('ALLOWED_HOSTS')
 

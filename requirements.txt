@@ -12,9 +12,6 @@ django-cors-headers==3.10.1
 # A configurable set of panels that display various debug information about the current request/response
 django-debug-toolbar==3.2.1
 
-# Set the draft security HTTP header Permissions-Policy (previously Feature-Policy) on your Django app.
-django-permissions-policy==4.7.0
-
 # REST Framework
 djangorestframework==3.13.1
 
