@@ -56,7 +56,8 @@ def validate_driver_as_query_param(driver):
 def validate_location_as_query_param(location) -> list:
     validated_location = []
     try:
-        validated_location = [int(component) for component in location]
+        filtered_components = filter(lambda component: 0 < int(component) < 100, location)
+        validated_location = [int(component) for component in filtered_components]
     except ValueError:
         pass
     return validated_location
